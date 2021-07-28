@@ -5,4 +5,6 @@
     <string name="nav_header_background">Nav Header Background</string>
     <string name="home">Home</string>
     <string name="favorites">Favorites</string>
+    <string name="cities">Cities</string>
+    <string name="top_cities">Top Cities</string>
 </resources>

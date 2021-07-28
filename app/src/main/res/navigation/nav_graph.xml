@@ -2,17 +2,17 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph.xml"
+    android:id="@+id/nav_graph"
     app:startDestination="@id/cityFragment">
 
     <fragment
         android:id="@+id/cityFragment"
         android:name="com.njoro.globotour.city.CityFragment"
-        android:label="Top Cities"
+        android:label="@string/top_cities"
         tools:layout="@layout/fragment_city" />
     <fragment
         android:id="@+id/favouriteFragment"
         android:name="com.njoro.globotour.favourite.FavouriteFragment"
-        android:label="Favourites"
+        android:label="@string/favorites"
         tools:layout="@layout/fragment_favourite" />
 </navigation>
