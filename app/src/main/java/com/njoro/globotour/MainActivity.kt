@@ -38,4 +38,12 @@ class MainActivity : AppCompatActivity() {
         //connect navigationview with navcontroller
         binding.navView.setupWithNavController(navController)
     }
+
+    override fun onBackPressed() {
+        if(binding.drawerLayout.isOpen){
+            binding.drawerLayout.close()
+        }else {
+            super.onBackPressed()
+        }
+    }
 }
