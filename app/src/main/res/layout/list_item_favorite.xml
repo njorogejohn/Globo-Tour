@@ -42,6 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
+            android:gravity="center"
             android:padding="15dp"
             android:textColor="#353434"
             android:textSize="20sp"
