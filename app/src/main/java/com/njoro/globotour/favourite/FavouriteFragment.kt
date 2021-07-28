@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
+import com.njoro.globotour.R
 import com.njoro.globotour.city.City
 import com.njoro.globotour.city.VacationSpots
 import com.njoro.globotour.databinding.FragmentFavouriteBinding
@@ -61,7 +63,7 @@ class FavouriteFragment : Fragment() {
         itemTouchHelper.attachToRecyclerView(favoriteRecyclerView)
     }
 
-    private val itemTouchHelper = ItemTouchHelper(object: ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP or ItemTouchHelper.DOWN,0){
+    private val itemTouchHelper = ItemTouchHelper(object: ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP or ItemTouchHelper.DOWN,ItemTouchHelper.RIGHT){
         override fun onMove(
             recyclerView: RecyclerView,
             viewHolder: RecyclerView.ViewHolder,
@@ -78,9 +80,43 @@ class FavouriteFragment : Fragment() {
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-            TODO("Not yet implemented")
+            val position = viewHolder.adapterPosition
+            val deletedCity = favoriteCities[position]
+
+            deleteCity(position)
+            updateCityList(deletedCity, false)
+
+            Snackbar.make(favoriteRecyclerView, "Deleted", Snackbar.LENGTH_LONG)
+                .setAction("UNDO") {
+                    undoDelete(position, deletedCity)
+                    updateCityList(deletedCity, true)
+
+                }
+                .setAnchorView(R.id.favorite_recycler_view) //without this... the snackbar appears presumably hehind the bottom nav...
+                .show()
+
+
+            //Toast.makeText(context!!,"Deleted",Toast.LENGTH_LONG).show()
         }
 
     })
+
+    private fun undoDelete(position: Int, deletedCity: City) {
+        favoriteCities.add(position, deletedCity)
+        favoriteAdapter.notifyItemInserted(position)
+        favoriteAdapter.notifyItemRangeChanged(position, favoriteCities.size)
+    }
+
+    private fun updateCityList(deletedCity: City, isFavorite: Boolean = false) {
+        val cityList = VacationSpots.cityList!!
+        val position = cityList.indexOf(deletedCity)
+        cityList[position].isFavorite = isFavorite
+    }
+
+    private fun deleteCity(position: Int) {
+        favoriteCities.removeAt(position)
+        favoriteAdapter.notifyItemRemoved(position)
+        favoriteAdapter.notifyItemRangeChanged(position, favoriteCities.size)
+    }
 
 }
