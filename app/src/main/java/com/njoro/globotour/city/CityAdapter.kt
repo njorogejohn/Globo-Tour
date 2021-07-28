@@ -1,6 +1,7 @@
 package com.njoro.globotour.city
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,8 +47,24 @@ class CityAdapter(val context: Context, var cityList: ArrayList<City>): Adapter<
 
             if (city.isFavorite) {
                 binding.imvFavorite.setImageDrawable(icFavouriteFilledImage)
+
+                //mark as not favorite
+                binding.imvFavorite.setOnClickListener {
+                    Log.e("GloboTour","mark ${city.name} as not favorite")
+                    city.isFavorite = false
+                    binding.imvFavorite.setImageDrawable(icFavouriteBorderedImage)
+                    VacationSpots.favourableCities.remove(city)
+                }
             }else {
                 binding.imvFavorite.setImageDrawable(icFavouriteBorderedImage)
+
+                //mark as favorite
+                binding.imvFavorite.setOnClickListener {
+                    Log.e("GloboTour","mark ${city.name} as favorite")
+                    city.isFavorite = true
+                    binding.imvFavorite.setImageDrawable(icFavouriteFilledImage)
+                    VacationSpots.favourableCities.add(city)
+                }
             }
 
             this.currentCity = city
